@@ -1,0 +1,409 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ request.LANGUAGE_CODE }}" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% trans "VisaRun Pro - Визараны из Вьетнама в Камбоджу и Лаос" %}</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tg: '#2AABEE',
+                        tgDark: '#229ED9',
+                        dark: '#1c1c1e',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 40px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+
+<body class="text-dark antialiased flex flex-col min-h-screen">
+
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="#" class="text-xl font-extrabold tracking-tight">VisaRun <span class="text-tg">Pro</span></a>
+
+            <div class="flex items-center gap-4">
+                <!-- Language Switcher -->
+                <form action="{% url 'set_language' %}" method="post" class="flex gap-2 items-center">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ redirect_to }}">
+                    <button type="submit" name="language" value="ru"
+                        class="text-xl hover:scale-110 transition-transform {% if request.LANGUAGE_CODE == 'ru' %}opacity-100{% else %}opacity-50{% endif %} hover:opacity-100"
+                        title="Русский">🇷🇺</button>
+                    <button type="submit" name="language" value="en"
+                        class="text-xl hover:scale-110 transition-transform {% if request.LANGUAGE_CODE == 'en' %}opacity-100{% else %}opacity-50{% endif %} hover:opacity-100"
+                        title="English">🇬🇧</button>
+                    <button type="submit" name="language" value="ko"
+                        class="text-xl hover:scale-110 transition-transform {% if request.LANGUAGE_CODE == 'ko' %}opacity-100{% else %}opacity-50{% endif %} hover:opacity-100"
+                        title="한국어">🇰🇷</button>
+                </form>
+
+                <a href="#contact"
+                    class="flex items-center gap-2 bg-tg hover:bg-tgDark active:scale-95 text-white px-4 py-2 rounded-xl transition-all font-semibold text-sm">
+                    <i class="ph-fill ph-telegram-logo text-lg"></i>
+                    <span class="hidden sm:inline">{% trans "Связаться" %}</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <section id="hero" class="pt-12 pb-16 px-4 sm:px-6 max-w-5xl mx-auto">
+            <span
+                class="inline-block py-1.5 px-3 rounded-full bg-blue-100 text-tgDark font-semibold text-sm mb-6 uppercase tracking-wider">
+                {% trans "Надежный сервис" %}
+            </span>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.1] mb-6 tracking-tight">
+                {% blocktrans %}Комфортные визараны <br class="hidden sm:block" />из Вьетнама в <span
+                    class="text-tg">Камбоджу</span> и <span class="text-tg">Лаос</span>{% endblocktrans %}
+            </h1>
+            <p class="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl leading-relaxed">
+                {% trans "Ежедневные рейсы. Оформляем E-visa. Транспорт бизнес-класса. Без стресса на границе." %}
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="#contact"
+                    class="flex justify-center items-center gap-2 bg-tg hover:bg-tgDark active:scale-95 text-white py-4 px-8 rounded-2xl text-lg font-bold transition-all shadow-lg shadow-tg/30 w-full sm:w-auto">
+                    <i class="ph-fill ph-telegram-logo text-xl"></i>
+                    {% trans "Забронировать в Telegram" %}
+                </a>
+                <a href="#destinations"
+                    class="flex justify-center items-center gap-2 bg-white border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 active:scale-95 text-dark py-4 px-8 rounded-2xl text-lg font-bold transition-all w-full sm:w-auto">
+                    <i class="ph-bold ph-calendar-blank text-xl"></i>
+                    {% trans "Посмотреть расписание" %}
+                </a>
+            </div>
+        </section>
+
+        <!-- Destinations Section -->
+        <section id="destinations" class="py-16 px-4 sm:px-6 max-w-5xl mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-extrabold mb-10 tracking-tight">{% trans "Наши маршруты" %}</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-[2rem] p-6 sm:p-8 shadow-soft border border-gray-100 flex flex-col">
+                    <div
+                        class="h-48 rounded-2xl bg-gray-100 mb-6 flex items-center justify-center overflow-hidden relative">
+                        <!-- Placeholder for visual -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-100 to-blue-50"></div>
+                        <i class="ph-duotone ph-map-pin-line text-6xl text-tg relative z-10"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-2xl font-bold mb-2">{% trans "Камбоджа" %} <span
+                                class="text-gray-400 font-medium text-xl">({% trans "Мокбай" %})</span></h3>
+                        <p class="text-gray-600 font-medium mb-4">{% trans "Быстрый бордер-ран" %}</p>
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span
+                                class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-xl text-sm font-semibold flex items-center gap-1.5"><i
+                                    class="ph-bold ph-clock"></i> {% trans "1 день" %}</span>
+                            <span
+                                class="bg-blue-50 text-tgDark px-3 py-1.5 rounded-xl text-sm font-semibold flex items-center gap-1.5"><i
+                                    class="ph-bold ph-file-text"></i> {% trans "Нужна E-visa" %}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-auto">
+                        <div>
+                            <span class="text-sm text-gray-500 font-medium uppercase tracking-wide">{% trans "Стоимость"%}</span>
+                            <div class="text-2xl font-extrabold text-dark mt-0.5">{% trans "от $40" %}</div>
+                        </div>
+                        <a href="#contact"
+                            class="bg-dark hover:bg-black active:scale-95 text-white py-3 px-6 rounded-xl font-bold transition-all">
+                            {% trans "Выбрать" %}
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white rounded-[2rem] p-6 sm:p-8 shadow-soft border border-gray-100 flex flex-col">
+                    <div
+                        class="h-48 rounded-2xl bg-gray-100 mb-6 flex items-center justify-center overflow-hidden relative">
+                        <div class="absolute inset-0 bg-gradient-to-br from-green-100 to-green-50"></div>
+                        <i class="ph-duotone ph-passport text-6xl text-green-500 relative z-10"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-2xl font-bold mb-2">{% trans "Лаос" %} <span
+                                class="text-gray-400 font-medium text-xl">({% trans "Лао Бао" %})</span></h3>
+                        <p class="text-gray-600 font-medium mb-4">{% trans "Для долгой визы" %}</p>
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span
+                                class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-xl text-sm font-semibold flex items-center gap-1.5"><i
+                                    class="ph-bold ph-clock"></i> {% trans "2 дня" %}</span>
+                            <span
+                                class="bg-green-50 text-green-700 px-3 py-1.5 rounded-xl text-sm font-semibold flex items-center gap-1.5"><i
+                                    class="ph-bold ph-stamp"></i> {% trans "Visa on arrival" %}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-auto">
+                        <div>
+                            <span class="text-sm text-gray-500 font-medium uppercase tracking-wide">{% trans "Стоимость"%}</span>
+                            <div class="text-2xl font-extrabold text-dark mt-0.5">{% trans "от $150" %}</div>
+                        </div>
+                        <a href="#contact"
+                            class="bg-dark hover:bg-black active:scale-95 text-white py-3 px-6 rounded-xl font-bold transition-all">
+                            {% trans "Выбрать" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it Works (Timeline) Section -->
+        <section id="how-it-works" class="py-16 px-4 sm:px-6 max-w-5xl mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-extrabold mb-10 tracking-tight">{% trans "Процесс от заявки до новой визы" %}</h2>
+
+            <div class="relative pl-6 sm:pl-10 mix-blend-multiply">
+                <!-- Vertical Line -->
+                <div class="absolute left-2 top-2 bottom-0 w-0.5 bg-gray-200 sm:left-4"></div>
+
+                <!-- Step 1 -->
+                <div class="relative pl-8 sm:pl-12 pb-12">
+                    <div
+                        class="absolute -left-1 sm:left-1 top-1 w-6 h-6 rounded-full bg-tg border-4 border-light shadow-sm flex justify-center items-center">
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="w-12 h-12 bg-blue-50 text-tg rounded-xl flex items-center justify-center mb-4">
+                            <i class="ph-bold ph-chat-circle-dots text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">{% trans "1. Оставляете заявку" %}</h3>
+                        <p class="text-gray-600 leading-relaxed">{% trans "Свяжитесь с нами в Telegram, выберите маршрут и удобную дату поездки." %}</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative pl-8 sm:pl-12 pb-12">
+                    <div
+                        class="absolute -left-1 sm:left-1 top-1 w-6 h-6 rounded-full bg-tg border-4 border-light shadow-sm flex justify-center items-center">
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="w-12 h-12 bg-blue-50 text-tg rounded-xl flex items-center justify-center mb-4">
+                            <i class="ph-bold ph-file-magnifying-glass text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">{% trans "2. Мы проверяем документы" %}</h3>
+                        <p class="text-gray-600 leading-relaxed">{% trans "Бесплатно консультируем, проверяем паспорт и помогаем с оформлением E-visa при необходимости." %}</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative pl-8 sm:pl-12 pb-12">
+                    <div
+                        class="absolute -left-1 sm:left-1 top-1 w-6 h-6 rounded-full bg-tg border-4 border-light shadow-sm flex justify-center items-center">
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="w-12 h-12 bg-blue-50 text-tg rounded-xl flex items-center justify-center mb-4">
+                            <i class="ph-bold ph-bus text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">{% trans "3. Комфортная поездка" %}</h3>
+                        <p class="text-gray-600 leading-relaxed">{% trans "Встречаемся в назначенном месте. Поездка проходит на современных слипербасах или лимузинах." %}</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative pl-8 sm:pl-12">
+                    <div
+                        class="absolute -left-1 sm:left-1 top-1 w-6 h-6 rounded-full bg-tg border-4 border-light shadow-sm flex justify-center items-center">
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <div
+                            class="w-12 h-12 bg-green-50 text-green-500 rounded-xl flex items-center justify-center mb-4">
+                            <i class="ph-bold ph-check-circle text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">{% trans "4. Возвращение с новым штампом" %}</h3>
+                        <p class="text-gray-600 leading-relaxed">{% trans "Помогаем с прохождением всех постов на границе без задержек и лишних вопросов. Счастливого пути назад!" %}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trust & Fleet Section -->
+        <section id="trust" class="bg-white py-16 px-4 sm:px-6">
+            <div class="max-w-5xl mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4 text-tg">
+                            <i class="ph-fill ph-steering-wheel text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">{% trans "Опытные водители" %}</h3>
+                        <p class="text-gray-600">{% trans "Аккуратное вождение и знание всех особенностей маршрута." %}
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4 text-tg">
+                            <i class="ph-fill ph-lifebuoy text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">{% trans "Помощь на границе" %}</h3>
+                        <p class="text-gray-600">{% trans "Наши гиды сопровождают вас при прохождении паспортного контроля." %}</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4 text-tg">
+                            <i class="ph-fill ph-armchair text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">{% trans "Комфортный транспорт" %}</h3>
+                        <p class="text-gray-600">{% trans "Удобные слипербасы и лимузины с Wi-Fi, розетками и кондиционерами." %}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-16 px-4 sm:px-6 max-w-3xl mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-extrabold mb-10 text-center tracking-tight">{% trans "Остались вопросы?" %}</h2>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button
+                        class="faq-button w-full flex justify-between items-center text-left p-6 outline-none focus:bg-gray-50 transition-colors">
+                        <span class="text-lg font-bold">{% trans "Сколько дней делается E-visa?" %}</span>
+                        <div
+                            class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 ml-4 group">
+                            <i
+                                class="ph-bold ph-plus text-gray-500 transition-transform duration-300 transform faq-icon"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6 text-gray-600 leading-relaxed">
+                        {% trans "Обычно оформление электронной визы в Камбоджу занимает от 1 до 3 рабочих дней. Мы рекомендуем подавать заявку заранее, минимум за неделю до планируемой поездки." %}
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button
+                        class="faq-button w-full flex justify-between items-center text-left p-6 outline-none focus:bg-gray-50 transition-colors">
+                        <span class="text-lg font-bold">{% trans "Что делать, если у меня оверстей?" %}</span>
+                        <div
+                            class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 ml-4 group">
+                            <i
+                                class="ph-bold ph-plus text-gray-500 transition-transform duration-300 transform faq-icon"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6 text-gray-600 leading-relaxed">
+                        {% blocktrans %}В случае превышения срока пребывания (overstay) во Вьетнаме взимается штраф на
+                        границе. Размер штрафа зависит от количества дней просрочки. Напишите нам, и мы проконсультируем
+                        вас по вашей ситуации.{% endblocktrans %}
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button
+                        class="faq-button w-full flex justify-between items-center text-left p-6 outline-none focus:bg-gray-50 transition-colors">
+                        <span class="text-lg font-bold">{% trans "Включено ли питание?" %}</span>
+                        <div
+                            class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 ml-4 group">
+                            <i
+                                class="ph-bold ph-plus text-gray-500 transition-transform duration-300 transform faq-icon"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6 text-gray-600 leading-relaxed">
+                        {% blocktrans %}Холодная вода предоставляется в транспорте. На маршруте предусмотрены остановки у
+                        кафе, где вы сможете перекусить за свой счет.{% endblocktrans %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-16 pb-8 border-t border-gray-800">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12">
+                <div>
+                    <a href="#" class="text-2xl font-extrabold tracking-tight mb-4 inline-block">VisaRun <span
+                            class="text-tg">Pro</span></a>
+                    <p class="text-gray-400 mb-6 max-w-sm">{% trans "Надежный партнер для регулярных поездок за новым штампом. Без стресса, с комфортом и точно в срок." %}</p>
+                    <div class="text-gray-400">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="ph-bold ph-clock"></i> {% trans "Поддержка" %}: 08:00 - 22:00
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:items-end">
+                    <h4 class="text-lg font-bold mb-4">{% trans "Контакты" %}</h4>
+                    <div class="flex gap-4 mb-6">
+                        <a href="#"
+                            class="w-12 h-12 bg-white/10 hover:bg-tg active:scale-95 rounded-2xl flex items-center justify-center transition-all">
+                            <i class="ph-fill ph-telegram-logo text-2xl"></i>
+                        </a>
+                        <a href="#"
+                            class="w-12 h-12 bg-white/10 hover:bg-green-500 active:scale-95 rounded-2xl flex items-center justify-center transition-all">
+                            <i class="ph-fill ph-whatsapp-logo text-2xl"></i>
+                        </a>
+                    </div>
+                    <div class="flex flex-col gap-2 md:text-right text-gray-400 font-medium">
+                        <a href="#" class="hover:text-white transition-colors">{% trans "Пользовательское соглашение" %}</a>
+                        <a href="#" class="hover:text-white transition-colors">{% trans "Политика конфиденциальности" %}</a>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="pt-8 border-t border-white/10 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-sm">© 2026 VisaRun Pro. {% trans "Все права защищены." %}</p>
+                <div class="flex gap-4 text-sm text-gray-500">
+                    <span>Vietnam</span>
+                    <span class="w-1 h-1 bg-gray-700 rounded-full my-auto"></span>
+                    <span>Cambodia</span>
+                    <span class="w-1 h-1 bg-gray-700 rounded-full my-auto"></span>
+                    <span>Laos</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Simple Accordion Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqButtons = document.querySelectorAll('.faq-button');
+
+            faqButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('.faq-icon');
+
+                    // Close others
+                    faqButtons.forEach(otherBtn => {
+                        if (otherBtn !== button) {
+                            otherBtn.nextElementSibling.classList.add('hidden');
+                            otherBtn.querySelector('.faq-icon').classList.remove('rotate-45');
+                        }
+                    });
+
+                    // Toggle current
+                    content.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-45');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
