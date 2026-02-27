@@ -23,5 +23,29 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  bot:
+    build: .
+    command: python main.py
+    working_dir: /app/bot
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      - REDIS_URL=redis://redis:6379/1
+      - BACKEND_URL=http://web:8250/api/v1 # or your exact api path
+    depends_on:
+      - redis
+      - web
+
 volumes:
   postgres_data:
+  redis_data:
