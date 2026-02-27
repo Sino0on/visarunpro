@@ -50,19 +50,30 @@
 
             <div class="flex items-center gap-4">
                 <!-- Language Switcher -->
-                <form action="{% url 'set_language' %}" method="post" class="flex gap-2 items-center">
-                    {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ request.get_full_path }}">
-                    <button type="submit" name="language" value="ru"
+                <div class="flex gap-2 items-center">
+                    <button type="button" onclick="switchLang('ru')"
                         class="text-xl hover:scale-110 transition-transform {% if request.LANGUAGE_CODE == 'ru' %}opacity-100{% else %}opacity-50{% endif %} hover:opacity-100"
                         title="Русский">🇷🇺</button>
-                    <button type="submit" name="language" value="en"
+                    <button type="button" onclick="switchLang('en')"
                         class="text-xl hover:scale-110 transition-transform {% if request.LANGUAGE_CODE == 'en' %}opacity-100{% else %}opacity-50{% endif %} hover:opacity-100"
                         title="English">🇬🇧</button>
-                    <button type="submit" name="language" value="ko"
+                    <button type="button" onclick="switchLang('ko')"
                         class="text-xl hover:scale-110 transition-transform {% if request.LANGUAGE_CODE == 'ko' %}opacity-100{% else %}opacity-50{% endif %} hover:opacity-100"
                         title="한국어">🇰🇷</button>
-                </form>
+                </div>
+                <script>
+                    function switchLang(lang) {
+                        const path = window.location.pathname;
+                        let newPath = '';
+                        if (path.length <= 1) {
+                            newPath = '/' + lang + '/';
+                        } else {
+                            // Replace the 2-letter language code prefix (e.g. /ru/)
+                            newPath = '/' + lang + path.substring(3);
+                        }
+                        window.location.href = window.location.origin + newPath + window.location.search;
+                    }
+                </script>
 
                 <a href="#contact"
                     class="flex items-center gap-2 bg-tg hover:bg-tgDark active:scale-95 text-white px-4 py-2 rounded-xl transition-all font-semibold text-sm">
