@@ -52,7 +52,7 @@
                 <!-- Language Switcher -->
                 <form action="{% url 'set_language' %}" method="post" class="flex gap-2 items-center">
                     {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ redirect_to }}">
+                    <input name="next" type="hidden" value="{{ request.get_full_path }}">
                     <button type="submit" name="language" value="ru"
                         class="text-xl hover:scale-110 transition-transform {% if request.LANGUAGE_CODE == 'ru' %}opacity-100{% else %}opacity-50{% endif %} hover:opacity-100"
                         title="Русский">🇷🇺</button>
